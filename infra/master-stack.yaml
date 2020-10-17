@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Zika stack master stack'
+
+#Parameters:
+#
+#  VpcBlock:
+#    Type: String
+#    Default: 192.168.0.0/16
+#    Description: The CIDR range for the VPC. This should be a valid private (RFC 1918) CIDR range.
+#
+#  Subnet01Block:
+#    Type: String
+#    Default: 192.168.64.0/18
+#    Description: CidrBlock for subnet 01 within the VPC
+#
+#  Subnet02Block:
+#    Type: String
+#    Default: 192.168.128.0/18
+#    Description: CidrBlock for subnet 02 within the VPC
+#
+
+Resources:
+  Network:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: network.yaml
+#      Parameters:
+#        VPCBlock: !Ref VPCBlock
+#        Subnet01Block: !Ref Subnet01Block
+#        Subnet02Block: !Ref Subnet02Block
+#
+#        Subnet01ID:
+#          Fn::GetAtt:
+#            - Network
+#            - Outputs.Subnet01ID
+#        Subnet02ID:
+#          Fn::GetAtt:
+#            - Network
+#            - Outputs.Subnet02ID
+  Roles:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: roles.yaml
+  Cluster:
+    Type: 'AWS::CloudFormation::Stack'
+    Properties:
+      TemplateURL: cluster.yaml
+      Parameters:
+        Subnet01ID:
+          Fn::GetAtt:
+            - Network
+            - Outputs.Subnet01ID
+        Subnet02ID:
+          Fn::GetAtt:
+            - Network
+            - Outputs.Subnet02ID
+#        VPCID:
+#          Fn::GetAtt:
+#            - Network
+#            - Outputs.VPCID
+        ControlPlaneSecurityGroup:
+          Fn::GetAtt:
+            - Network
+            - Outputs.ControlPlaneSecGp
+        eksClusterRoleArn:
+          Fn::GetAtt:
+            - Roles
+            - Outputs.eksClusterRole
+        NodeInstanceRoleArn:
+          Fn::GetAtt:
+            - Roles
+            - Outputs.eksNodeRole
+
+

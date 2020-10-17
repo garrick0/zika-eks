@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  "Cluster definition for zika"
+
+Parameters:
+  ClusterName:
+    Type: String
+    Default: zika-cluster
+    Description: Cluster-Name
+  eksClusterRoleArn:
+    Type: String
+    Default: "arn:aws:iam::395229015146:role/zika-stack-Roles-XELEMDRNX8IG-eksClusterRole-1C0UGOA8436ZU"
+  ControlPlaneSecurityGroup:
+    Type: String
+    Default: ""
+    Description: Control Plane Security Group 
+  Subnet01ID:
+    Description: Subnet 1 ID
+    Type: AWS::EC2::Subnet::Id
+    Default: ""
+  Subnet02ID:
+    Description: Subnet 2 ID
+    Type: AWS::EC2::Subnet::Id
+    Default: ""
+Resources:
+  LogicalID:
+    Type: "AWS::EKS::Cluster"
+    Properties:
+      Version: String
+      RoleArn: !Ref eksClusterRoleArn 
+      ResourcesVpcConfig: 
+        SecurityGroupIds:
+            - !Ref ControlPlaneSecurityGroup
+        SubnetIds:
+            - !Ref Subnet01ID
+            - !Ref Subnet02ID
+      Name: String
+  

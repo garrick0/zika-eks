@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Zika stack master stack
+Resources:
+  Network:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.ap-southeast-2.amazonaws.com/zika-cloudformation/eb8f3d532ef393fd60f0a1aa2d7923a6.template
+  Roles:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.ap-southeast-2.amazonaws.com/zika-cloudformation/9f11934660fc87061aae8f47a69e7e52.template
+  Cluster:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.ap-southeast-2.amazonaws.com/zika-cloudformation/6246a2beacab19a900886b296c5bd82e.template
+      Parameters:
+        Subnet01ID:
+          Fn::GetAtt:
+          - Network
+          - Outputs.Subnet01ID
+        Subnet02ID:
+          Fn::GetAtt:
+          - Network
+          - Outputs.Subnet02ID
+        ControlPlaneSecurityGroup:
+          Fn::GetAtt:
+          - Network
+          - Outputs.ControlPlaneSecGp
+        eksClusterRoleArn:
+          Fn::GetAtt:
+          - Roles
+          - Outputs.eksClusterRole
+        NodeInstanceRoleArn:
+          Fn::GetAtt:
+          - Roles
+          - Outputs.eksNodeRole
