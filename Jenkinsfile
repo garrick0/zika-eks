@@ -1,5 +1,4 @@
 node('jenkins-slave') {
-    stages {
 
     stage('unit-tests') {
         sh(script: """
@@ -21,6 +20,5 @@ node('jenkins-slave') {
       }
     }
 
-  }
-    
+
 }
