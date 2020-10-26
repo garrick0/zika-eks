@@ -11,7 +11,7 @@ node('jenkins-slave') {
     }
 
     stage('Deploy App') {
-      kubernetesDeploy(configs: "nginx.yaml", kubeconfigId: "mykubeconfig")
+      kubernetesDeploy(configs: "kubernetes/hello-world/nginx.yaml", kubeconfigId: "mykubeconfig")
     }
 
 
