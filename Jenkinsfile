@@ -10,13 +10,9 @@ node('jenkins-slave') {
       git branch: 'master', url: 'https://github.com/garrick0/zika-eks.git'
     }
 
-    // stage('Deploy App') {
-    //   steps {
-    //     script {
-    //       kubernetesDeploy(configs: "nginx.yaml", kubeconfigId: "mykubeconfig")
-    //     }
-    //   }
-    // }
+    stage('Deploy App') {
+      kubernetesDeploy(configs: "nginx.yaml", kubeconfigId: "mykubeconfig")
+    }
 
 
 }
