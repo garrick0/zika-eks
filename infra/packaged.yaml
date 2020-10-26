@@ -4,7 +4,7 @@ Resources:
   Network:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://s3.ap-southeast-2.amazonaws.com/zika-cloudformation/eb8f3d532ef393fd60f0a1aa2d7923a6.template
+      TemplateURL: https://s3.ap-southeast-2.amazonaws.com/zika-cloudformation/ad632838873b49c2731c7a0c887cae2f.template
   Roles:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -12,7 +12,7 @@ Resources:
   Cluster:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://s3.ap-southeast-2.amazonaws.com/zika-cloudformation/6246a2beacab19a900886b296c5bd82e.template
+      TemplateURL: https://s3.ap-southeast-2.amazonaws.com/zika-cloudformation/7e344c65f1f4fabceeb97bff5ac9f0db.template
       Parameters:
         Subnet01ID:
           Fn::GetAtt:
@@ -26,10 +26,7 @@ Resources:
           Fn::GetAtt:
           - Network
           - Outputs.ControlPlaneSecGp
-        eksClusterRoleArn:
-          Fn::GetAtt:
-          - Roles
-          - Outputs.eksClusterRole
+        eksClusterRoleArn: arn:aws:iam::395229015146:role/zika-stack-Roles-XELEMDRNX8IG-eksClusterRole-1C0UGOA8436ZU
         NodeInstanceRoleArn:
           Fn::GetAtt:
           - Roles

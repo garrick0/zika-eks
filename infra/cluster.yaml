@@ -9,7 +9,10 @@ Parameters:
     Description: Cluster-Name
   eksClusterRoleArn:
     Type: String
-    Default: "arn:aws:iam::395229015146:role/zika-stack-Roles-XELEMDRNX8IG-eksClusterRole-1C0UGOA8436ZU"
+    Default: "" #arn:aws:iam::395229015146:role/zika-stack-Roles-XELEMDRNX8IG-eksClusterRole-1C0UGOA8436ZU
+  NodeInstanceRoleArn:
+    Type: String
+    Default: ""
   ControlPlaneSecurityGroup:
     Type: String
     Default: ""
@@ -22,17 +25,41 @@ Parameters:
     Description: Subnet 2 ID
     Type: AWS::EC2::Subnet::Id
     Default: ""
+
+#aws eks create-nodegroup \
+#--cluster-name getting-started-eks \
+#--nodegroup-name test \
+#--node-role $role_arn \
+#--subnets subnet-070a38f690ced3d29 \
+#--disk-size 200 \
+#--scaling-config minSize=1,maxSize=2,desiredSize=1 \
+#--instance-types t2.small
+
+#Conditions:
+#  eksClusterRoleArn: !Equals arn:aws:iam::395229015146:role/zika-stack-Roles-XELEMDRNX8IG-eksClusterRole-1C0UGOA8436ZU
+
 Resources:
-  LogicalID:
+  eksCluster:
     Type: "AWS::EKS::Cluster"
     Properties:
-      Version: String
-      RoleArn: !Ref eksClusterRoleArn 
+      Name: "zika-cluster"
+      RoleArn: !Ref eksClusterRoleArn #arn:aws:iam::395229015146:role/zika-stack-Roles-XELEMDRNX8IG-eksClusterRole-1C0UGOA8436ZU 
       ResourcesVpcConfig: 
-        SecurityGroupIds:
-            - !Ref ControlPlaneSecurityGroup
         SubnetIds:
-            - !Ref Subnet01ID
-            - !Ref Subnet02ID
-      Name: String
-  
+            - !Ref Subnet01ID #subnet-001b1b716386d8b22
+            - !Ref Subnet02ID #subnet-001b1b716386d8b22 
+
+  eksNodegroup:
+    Type: "AWS::EKS::Nodegroup"
+    Properties:
+      ScalingConfig:
+        DesiredSize: 1
+        MaxSize: 2
+        MinSize: 1 
+      NodegroupName: zikaNodeGroup
+      Subnets: #required
+        - !Ref Subnet01ID
+        - !Ref Subnet02ID
+      NodeRole: arn:aws:iam::395229015146:role/zika-stack-Roles-XELEMDRNX8IG-eksNodeRole-1N535P3Z3OP1R #!Ref NodeInstanceRoleArn
+      ClusterName: "zika-cluster" #required
+

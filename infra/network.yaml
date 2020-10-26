@@ -128,6 +128,13 @@ Resources:
       GroupDescription: Cluster communication with worker nodes
       VpcId: !Ref VPC
 
+  # Add INGRESS PORT 2049 https://github.com/marcel-dempers/docker-development-youtube-series/blob/master/jenkins/amazon-eks/readme.md
+  # EFSSecurityGroup:
+  #   Type: AWS::EC2::SecurityGroup
+  #   Properties:
+  #     GroupDescription: Cluster communication with worker nodes
+  #     VpcId: !Ref VPC
+
 Outputs:
 
   ControlPlaneSecGp:

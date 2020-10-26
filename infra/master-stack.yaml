@@ -62,10 +62,10 @@ Resources:
           Fn::GetAtt:
             - Network
             - Outputs.ControlPlaneSecGp
-        eksClusterRoleArn:
-          Fn::GetAtt:
-            - Roles
-            - Outputs.eksClusterRole
+        eksClusterRoleArn: arn:aws:iam::395229015146:role/zika-stack-Roles-XELEMDRNX8IG-eksClusterRole-1C0UGOA8436ZU
+#          Fn::GetAtt:
+#            - Roles
+#            - Outputs.eksClusterRole
         NodeInstanceRoleArn:
           Fn::GetAtt:
             - Roles

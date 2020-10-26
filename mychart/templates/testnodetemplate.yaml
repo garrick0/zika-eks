@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Node
+metadata:
+  annotations:
+    node.alpha.kubernetes.io/ttl: '0'
+    volumes.kubernetes.io/controller-managed-attach-detach: 'true'
+  labels:
+    beta.kubernetes.io/arch: amd64
+    beta.kubernetes.io/instance-type: t3.medium
+    beta.kubernetes.io/os: linux
+    eks.amazonaws.com/nodegroup: zikaNodeGroup
+    eks.amazonaws.com/nodegroup-image: ami-056a5f106add4d37a
+    failure-domain.beta.kubernetes.io/region: ap-southeast-2
+    failure-domain.beta.kubernetes.io/zone: ap-southeast-2a
+    kubernetes.io/arch: amd64
+    kubernetes.io/hostname: ip-192-168-103-196.ap-southeast-2.compute.internal
+    kubernetes.io/os: linux
+    node.kubernetes.io/instance-type: t3.medium
+    topology.kubernetes.io/region: ap-southeast-2
+    topology.kubernetes.io/zone: ap-southeast-2a
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+  name: {{ template "fullname" . }}
+spec:
+  providerID: 'aws:///ap-southeast-2a/i-0b66b5e778e82ce36'
